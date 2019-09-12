@@ -1,0 +1,58 @@
+<% layout('layout') %>
+
+<!-- MAIN CONTENT-->
+<div class="main-content">
+    <div class="section__content section__content--p30">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-9">
+                    <div class="overview-wrap">
+                        <h2 class="title-1">Referencial</h2>
+                        <a href="/ciudad/nueva_ciudad" class="au-btn au-btn-icon au-btn--blue">
+                            <i class="zmdi zmdi-plus"></i>Agregar item
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="row m-t-25">
+                <div class="col-lg-9">
+                    <% if(data.length !== 0) { %>
+                    <div class="table-responsive table--no-card m-b-30">
+                        <table class="table table-borderless table-striped table-earning" id="tbl">
+                            <thead>
+                                <tr>
+                                    <th>Descripción</th>
+                                    <th>Operación</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% data.forEach(valor => { %>
+                                <tr>
+                                    <td><%= valor.descri %></td>
+                                    <td>
+                                        <a href="/ciudad/mod/<%= valor.id %>" class="btn btn-warning btn-sm btn-editar" onclick="return false;"><i
+                                                class="fa fa-edit"></i> Editar</a>
+                                        <a href="/ciudad/del/<%= valor.id %>" class="btn btn-danger btn-sm btn-del"><i
+                                                class="fa fa-eraser"></i> Eliminar</a>
+                                    </td>
+                                </tr>
+                                <% }) %>
+                            </tbody>
+                        </table>
+                    </div>
+                    <% } else { %>
+                    <div class="alert alert-warning">
+                        No hay registros
+                    </div>
+                    <% } %>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- END MAIN CONTENT-->
+<!-- END PAGE CONTAINER-->
+</div>
+
+</div>
+<% block('js_personalizado').append('<script src="/jsValidaciones/ciudad.js"></script>') %>

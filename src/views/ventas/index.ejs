@@ -1,0 +1,107 @@
+<% layout('layout') %>
+
+<!-- MAIN CONTENT-->
+<div class="main-content">
+    <div class="section__content section__content--p30">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-9">
+                    <div class="card">
+                        <div class="card-header">Datos de venta</div>
+                        <div class="card-body">
+                            <div class="card-title">
+                                <h3 class="text-center title-2">Cajero: </h3>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <label for="" class="control-label mb-1">Cliente</label>
+                                        <input type="text" name="" id="" list="persona" class="input-sm form-control-sm form-control">
+                                        <datalist id="persona">                                            
+                                            <%if(data.length != 0) {%>
+                                                <% data.forEach(valor => { %>
+                                                    <option value="<%= valor.id %>"><%= `${valor.nombres} ${valor.apellidos}` %></option>    
+                                                <% }) %>
+                                            <%} else {%>
+                                                <option value="No data">No data</option>
+                                            <%}%>
+                                        </datalist>    
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="" class="control-label mb-1">RUC</label>
+                                        <input type="text" name="" id="" class="input-sm form-control-sm form-control">
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="" class="control-label mb-1">Vendedor</label>
+                                        <input type="text" name="" id="" class="input-sm form-control-sm form-control">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-9">
+                    <div class="card">
+                        <div class="card-header">Detalle</div>
+                        <div class="card-body">                            
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <label for="" class="control-label mb-1">Mercadería:</label>
+                                        <input type="text" name="" id="" list="mercaderia" class="input-sm form-control-sm form-control">
+                                        <datalist id="mercaderia">
+                                        <% if (mercaderias.length != 0) { %>
+                                            <% mercaderias.forEach(m => { %>
+                                                <option value="<%= m.id %>"><%= `${m.nombre} - ${m.precio_venta}` %></option>    
+                                            <% }) %>
+                                        <%} else { %>
+                                            <option value="No data">No data</option>
+                                        <% } %>
+                                        </datalist>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group" >
+                                        <label for="" class="control-label mb-1">Cantidad</label>
+                                        <input type="text" name="" id="" class="input-sm form-control-sm form-control cantidad" style="width: 100px;">
+                                    </div>
+                                </div>                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row m-t-25">
+                <div class="col-lg-9">
+                    <div class="table-responsive table--no-card m-b-30">
+                        <table class="table table-borderless table-striped table-earning" id="tbl">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Descripción</th>
+                                    <th>Cantidad</th>
+                                    <th>Precio Uni.</th>
+                                    <th>Subtotal</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- END MAIN CONTENT-->
+<!-- END PAGE CONTAINER-->
+</div>
+
+</div>
