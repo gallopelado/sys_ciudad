@@ -7,7 +7,9 @@ router.use(ventas);
 
 router.get('/', (req, res) => {    
     if(req.session.nick) {
-        res.render('index');        
+        res.render('index', {
+            user: req.session.nick, email: req.session.email
+        });        
     }else{
         res.redirect('/auth');        
     }    
