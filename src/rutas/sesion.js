@@ -67,7 +67,6 @@ router.post('/procesar', (req, res, next) => {
     const { user, pass } = req.body;
     authenticate(user, pass, (err, nick, email) => {
         if(err) {
-            //return next(err)
             req.session.error = 'Authentication failed, please check your username and password.'
             return res.redirect('/procesar')
         }

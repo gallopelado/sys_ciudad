@@ -1,9 +1,9 @@
 const express = require('express');
 const router = express.Router();
-const ventas = require('./ventas');
+//const ventas = require('./ventas');
 const db = require('../db/database');
 
-router.use(ventas);
+//router.use(ventas);
 
 router.get('/', (req, res) => {    
     if(req.session.nick) {
