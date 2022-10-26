@@ -1,21 +1,81 @@
 <% layout('layout') %>
-
+<script src="/vendor/bootstrap-4.6.2-dist/js/moment.js"></script>
+<script src="/vendor/bootstrap-4.6.2-dist/js/moment.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+<script src="https://unpkg.com/gijgo@1.9.13/js/gijgo.min.js" type="text/javascript"></script>
+<link href="https://unpkg.com/gijgo@1.9.13/css/gijgo.min.css" rel="stylesheet" type="text/css" />
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <!-- MAIN CONTENT-->
 <div class="main-content">
     <div class="section__content section__content--p30">
         <div class="container-fluid">
             <div class="row">
-                <div class="col-md-9">
+                <div class="col-md-12 ">
                     <div class="overview-wrap">
-                        <h2 class="title-1">Referencial</h2>
-                        <a href="/ciudad/nueva_ciudad" class="au-btn au-btn-icon au-btn--blue">
-                            <i class="zmdi zmdi-plus"></i>Agregar item
-                        </a>
+                        <h2 class="title-1">Total Pacientes atendidos</h2>
+                    </div>
+                    <div class="row form-group">
+                        <div class="col-2">
+                            <h4 >Departamento:</h4>
+                        </div>
+                        <div class="col-2">
+                            <select class="browser-default custom-select form-control" id="departamntoId">
+                            
+                                <% if(data.length !== 0) { %>
+                                    <option selected>Todos</option>
+                                    <% data.forEach(valor => { %>
+                                        <option value="<%= valor.codigo_departamento %>"><%= valor.nombre_departamento %></option>
+                                    <% }) %>
+                                <% } else { %>
+                                    <option value="T" selected>Seleccionar departamento</option>
+                                <% } %>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <div class="col-2">
+                            <h4 >Establecimiento:</h4>
+                        </div>
+                        <div class="col-2">
+                            <select class="browser-default custom-select form-control" id="establecimientoId">
+                                    <option value="T" selected>Seleccionar Establecimiento</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <div class="col-1">
+                            <h4 >Desde:</h4>
+                        </div>
+                        <div class="col-3">
+                            <input id="datepicker_desde" class="datepicker form-control" />
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <div class="col-1">
+                            <h4 >Hasta:</h4>
+                        </div>
+                        <div class="col-3">
+                            <input id="datepicker_hasta" class="datepicker form-control" />
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <div class="col-2">
+                            <button type="button" class="btn btn-dark" id="btnBuscar">Buscar</button>
+                        </div>
+                        <script>        
+                               $('#datepicker_desde').datepicker({
+                                    uiLibrary: 'bootstrap4'
+                                });
+                                $('#datepicker_hasta').datepicker({
+                                    uiLibrary: 'bootstrap4'
+                                });                           
+                        </script>
                     </div>
                 </div>
             </div>
-            <div class="row m-t-25">
-                <div class="col-lg-9">
+            <div class="row">
+                <div class="col-lg-12">
                     <% if(data.length !== 0) { %>
                     <div class="table-responsive table--no-card m-b-30">
                         <table class="table table-borderless table-striped table-earning" id="tbl">
@@ -55,4 +115,12 @@
 </div>
 
 </div>
+<!-- Jquery JS-->
+<!-- <script src="/vendor/jquery-3.2.1.min.js"></script>
+<script src="/vendor/jquery-ui.min.js"></script> -->
+<!-- Bootstrap JS-->
+<!-- <script src="/vendor/bootstrap-4.1/popper.min.js"></script>
+<script src="/vendor/bootstrap-4.1/bootstrap.min.js"></script> -->
+<!-- <script src="/vendor/bootstrap-4.6.2-dist/js/bootstrap.min.js"></script>
+<script src="/vendor/bootstrap-4.6.2-dist/js/bootstrap.bundle.js"></script> -->
 <% block('js_personalizado').append('<script src="/jsValidaciones/ciudad.js"></script>') %>

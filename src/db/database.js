@@ -8,5 +8,15 @@ const cn = {
     max: 30 // use up to 30 connections
 }
 const db = pgp(cn)
+/*const CnDc = {
+    host: '127.0.0.1',
+    port: 54220,
+    database: 'datacenter_new',
+    user: 'historian',
+    password: 'hishis21t',
+    max: 30 // use up to 30 connections
+}
+const dbDataCenter = pgp(CnDc)*/
 
 module.exports = db;
+//module.exports = dbDataCenter;

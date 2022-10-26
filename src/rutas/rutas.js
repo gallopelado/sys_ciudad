@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 //const ventas = require('./ventas');
 const db = require('../db/database');
-
+const dbaData = require('../db/dataBaseDatacenter');
 //router.use(ventas);
 
 router.get('/', (req, res) => {    
@@ -11,14 +11,15 @@ router.get('/', (req, res) => {
             user: req.session.nick, email: req.session.email
         });        
     }else{
-        res.redirect('/auth');        
+        res.redirect('/auth');
     }    
 });
 
 router.get('/ciudad', (req, res) => {
     if(req.session.nick) {
-    db.any('SELECT * FROM ciudades')
-    .then((data) => {                
+        dbaData.any(`select codigo_departamento, nombre_departamento from departamento `)
+    .then((data) => { 
+        console.log(data)               
         res.render('ciudad/index', {data: data, user:req.session.nick, email:req.session.email });
     })
     .catch((error) => {
@@ -105,4 +106,20 @@ router.post('/ciudad/modificar_ciudad', (req, res) => {
     }
  });
 
+router.get('/establecimiento/:id',async (req, res, next) => {
+  
+    try {
+        let id = req.params.id;
+        if(id!='T'){
+            const establecimientos = await dbaData.any(`SELECT pa.codigo_establecimiento ,(select nombre_establecimiento from establecimiento where pa.codigo_establecimiento=codigo_establecimiento) FROM paciente_asignacion pa JOIN consulta cu USING (codigo_asignacion,codigo_establecimiento) WHERE cu.creacion_usuario NOT IN ('222', '002', 'sysadmin') and substring(pa.codigo_establecimiento,3,2)=$1 GROUP BY pa.codigo_establecimiento ORDER BY pa.codigo_establecimiento`,[id])
+            res.json( establecimientos) ; 
+        }else{
+            const establecimientos = await dbaData.any(`SELECT pa.codigo_establecimiento ,(select nombre_establecimiento from establecimiento where pa.codigo_establecimiento=codigo_establecimiento) FROM paciente_asignacion pa JOIN consulta cu USING (codigo_asignacion,codigo_establecimiento) WHERE  cu.creacion_usuario NOT IN ('222', '002', 'sysadmin') GROUP BY pa.codigo_establecimiento ORDER BY pa.codigo_establecimiento`)
+            res.json( establecimientos) ; 
+        }
+    } catch (error) {
+        console.error(error)
+        next(error);
+    }
+});
 module.exports = router;
