@@ -19,7 +19,7 @@ router.get('/ciudad', (req, res) => {
     if(req.session.nick) {
         dbaData.any(`select codigo_departamento, nombre_departamento from departamento `)
     .then((data) => { 
-        console.log(data)               
+       // console.log(data)               
         res.render('ciudad/index', {data: data, user:req.session.nick, email:req.session.email });
     })
     .catch((error) => {
@@ -92,7 +92,7 @@ router.get('/ciudad/mod/:id', (req, res) => {
 });
 router.post('/ciudad/modificar_ciudad', (req, res) => {
     if(req.session.nick) { 
-    console.log(req.body);
+    //console.log(req.body);
     let {id, descri} = req.body;        
      db.none('UPDATE ciudades SET descri=UPPER($1) WHERE id=$2', [descri, id])
      .then((data) => {
@@ -115,6 +115,28 @@ router.get('/establecimiento/:id',async (req, res, next) => {
             res.json( establecimientos) ; 
         }else{
             const establecimientos = await dbaData.any(`SELECT pa.codigo_establecimiento ,(select nombre_establecimiento from establecimiento where pa.codigo_establecimiento=codigo_establecimiento) FROM paciente_asignacion pa JOIN consulta cu USING (codigo_asignacion,codigo_establecimiento) WHERE  cu.creacion_usuario NOT IN ('222', '002', 'sysadmin') GROUP BY pa.codigo_establecimiento ORDER BY pa.codigo_establecimiento`)
+            res.json( establecimientos) ; 
+        }
+    } catch (error) {
+        console.error(error)
+        next(error);
+    }
+});
+
+router.get('/establecimiento_all',async (req, res, next) => {  
+    try {
+        let departamento = req.query.departamento;
+        let establecimiento = req.query.establecimiento;
+        let datepicker_desde = req.query.datepicker_desde;
+        let datepicker_hasta = req.query.datepicker_hasta;
+        if(departamento=='T' && establecimiento=='T'){
+            const establecimientos = await dbaData.any(`SELECT pa.codigo_establecimiento ,(select nombre_establecimiento from establecimiento where pa.codigo_establecimiento=codigo_establecimiento) ,(select nombre_departamento from departamento where substring(pa.codigo_establecimiento,3,2)=codigo_departamento) ,COUNT(pa.codigo_establecimiento) FROM paciente_asignacion pa JOIN consulta cu USING (codigo_asignacion,codigo_establecimiento) WHERE pa.creacion_fecha BETWEEN $1 AND $2 AND cu.creacion_usuario NOT IN ('222', '002', 'sysadmin') GROUP BY pa.codigo_establecimiento ORDER BY pa.codigo_establecimiento`,[datepicker_desde,datepicker_hasta])
+            res.json( establecimientos) ; 
+        }else if(departamento!='T' && establecimiento=='T'){
+            const establecimientos = await dbaData.any(`SELECT pa.codigo_establecimiento ,(select nombre_establecimiento from establecimiento where pa.codigo_establecimiento=codigo_establecimiento ) ,(select nombre_departamento from departamento where substring(pa.codigo_establecimiento,3,2)=codigo_departamento) ,COUNT(pa.codigo_establecimiento) as total FROM paciente_asignacion pa JOIN consulta cu USING (codigo_asignacion,codigo_establecimiento) WHERE pa.creacion_fecha BETWEEN $1 AND $2 AND cu.creacion_usuario NOT IN ('222', '002', 'sysadmin') and substring(pa.codigo_establecimiento,3,2)=$3 GROUP BY pa.codigo_establecimiento ORDER BY pa.codigo_establecimiento`,[datepicker_desde,datepicker_hasta,departamento])
+            res.json( establecimientos) ; 
+        }else{
+            const establecimientos = await dbaData.any(`SELECT pa.codigo_establecimiento ,(select nombre_establecimiento from establecimiento where pa.codigo_establecimiento=codigo_establecimiento ) ,(select nombre_departamento from departamento where substring(pa.codigo_establecimiento,3,2)=codigo_departamento) ,COUNT(pa.codigo_establecimiento) as total FROM paciente_asignacion pa JOIN consulta cu USING (codigo_asignacion,codigo_establecimiento) WHERE pa.creacion_fecha BETWEEN $1 AND $2 AND cu.creacion_usuario NOT IN ('222', '002', 'sysadmin') and substring(pa.codigo_establecimiento,3,2)=$3 and pa.codigo_establecimiento=$4 GROUP BY pa.codigo_establecimiento ORDER BY pa.codigo_establecimiento`,[datepicker_desde,datepicker_hasta,departamento,establecimiento])
             res.json( establecimientos) ; 
         }
     } catch (error) {

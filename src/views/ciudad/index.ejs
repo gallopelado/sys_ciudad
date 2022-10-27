@@ -5,6 +5,8 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 <script src="https://unpkg.com/gijgo@1.9.13/js/gijgo.min.js" type="text/javascript"></script>
 <link href="https://unpkg.com/gijgo@1.9.13/css/gijgo.min.css" rel="stylesheet" type="text/css" />
+<link href="/css/notiflix-2.1.2.min.css" rel="stylesheet" media="all">
+<script src="/vendor/notiflix-2.1.2.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <!-- MAIN CONTENT-->
 <div class="main-content">
@@ -28,7 +30,7 @@
                                         <option value="<%= valor.codigo_departamento %>"><%= valor.nombre_departamento %></option>
                                     <% }) %>
                                 <% } else { %>
-                                    <option value="T" selected>Seleccionar departamento</option>
+                                    <option value="T" selected>Todos</option>
                                 <% } %>
                             </select>
                         </div>
@@ -39,7 +41,7 @@
                         </div>
                         <div class="col-2">
                             <select class="browser-default custom-select form-control" id="establecimientoId">
-                                    <option value="T" selected>Seleccionar Establecimiento</option>
+                                    <option value="T" selected>Todos</option>
                             </select>
                         </div>
                     </div>
@@ -76,35 +78,22 @@
             </div>
             <div class="row">
                 <div class="col-lg-12">
-                    <% if(data.length !== 0) { %>
                     <div class="table-responsive table--no-card m-b-30">
                         <table class="table table-borderless table-striped table-earning" id="tbl">
                             <thead>
                                 <tr>
-                                    <th>Descripción</th>
-                                    <th>Operación</th>
+                                    <th>Código establecimiento</th>
+                                    <th>Departamento</th>
+                                    <th>Establecimiento</th>
+                                    <th>total</th>
+                                    <th>Acción</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                <% data.forEach(valor => { %>
-                                <tr>
-                                    <td><%= valor.descri %></td>
-                                    <td>
-                                        <a href="/ciudad/mod/<%= valor.id %>" class="btn btn-warning btn-sm btn-editar" onclick="return false;"><i
-                                                class="fa fa-edit"></i> Editar</a>
-                                        <a href="/ciudad/del/<%= valor.id %>" class="btn btn-danger btn-sm btn-del"><i
-                                                class="fa fa-eraser"></i> Eliminar</a>
-                                    </td>
-                                </tr>
-                                <% }) %>
+                            <tbody id="tBody">                               
+                              
                             </tbody>
                         </table>
                     </div>
-                    <% } else { %>
-                    <div class="alert alert-warning">
-                        No hay registros
-                    </div>
-                    <% } %>
                 </div>
             </div>
         </div>
@@ -123,4 +112,4 @@
 <script src="/vendor/bootstrap-4.1/bootstrap.min.js"></script> -->
 <!-- <script src="/vendor/bootstrap-4.6.2-dist/js/bootstrap.min.js"></script>
 <script src="/vendor/bootstrap-4.6.2-dist/js/bootstrap.bundle.js"></script> -->
-<% block('js_personalizado').append('<script src="/jsValidaciones/ciudad.js"></script>') %>
+<% block('js_personalizado').append('<script src="/jsValidaciones/pacientes_total.js"></script>') %>
