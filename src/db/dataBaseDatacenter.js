@@ -1,7 +1,7 @@
 const pgp = require('pg-promise')(/*options*/);
 const CnDc = {
     host: '',
-    port: 5432,
+    port: '',
     database: '',
     user: '',
     password: '',
